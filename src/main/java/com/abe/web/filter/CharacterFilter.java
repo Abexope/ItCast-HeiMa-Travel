@@ -9,8 +9,6 @@ import java.io.IOException;
 /**
  * @Author: Abe
  * @Date: 2020/10/7
- * @Description: ${PACKAGE_NAME}
- * @version: 1.0
  *
  * 字符编码过滤器
  */

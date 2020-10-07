@@ -20,8 +20,6 @@ import java.util.Map;
 /**
  * @Author: Abe
  * @Date: 2020/10/7
- * @Description: com.abe.web.servlet
- * @version: 1.0
  *
  * 用户注册
  */
