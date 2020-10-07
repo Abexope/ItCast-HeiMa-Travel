@@ -3,14 +3,13 @@ package com.abe.dao.impl;
 import com.abe.dao.UserDao;
 import com.abe.domain.User;
 import com.abe.util.JDBCUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * @Author: Abe
  * @Date: 2020/10/7
- * @Description: com.abe.dao.impl
- * @version: 1.0
  */
 public class UserDaoImpl implements UserDao {
 
@@ -50,8 +49,8 @@ public class UserDaoImpl implements UserDao {
 
         // 1.定义sql
         String sql = "INSERT INTO tab_user(" +
-                "username, password, name, birthday, sex, telephone, email) " +
-                "VALUES(?,?,?,?,?,?,?)";
+                "username, password, name, birthday, sex, telephone, email, status, code) " +
+                "VALUES(?,?,?,?,?,?,?,?,?)";
 
         // 2.执行sql
         template.update(sql,
@@ -61,8 +60,37 @@ public class UserDaoImpl implements UserDao {
                 user.getBirthday(),
                 user.getSex(),
                 user.getTelephone(),
-                user.getEmail()
+                user.getEmail(),
+                user.getStatus(),
+                user.getCode()
         );
 
+    }
+
+    /**
+     * 根据激活码查询用户信息
+     * @param code String 激活码
+     * @return
+     *      查询成功：User Bean 对象
+     *      查询失败：null
+     */
+    @Override
+    public User findByCode(String code) {
+        User user = null;
+        try {
+            String sql = "SELECT * FROM tab_user WHERE code = ?";
+            user = template.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), code);
+        } catch (DataAccessException ignore) { }
+        return user;
+    }
+
+    /**
+     * 更新激活状态
+     * @param user User Bean 对象
+     */
+    @Override
+    public void updateStatus(User user) {
+        String sql = "UPDATE tab_user SET status = 'Y' WHERE uid = ?";
+        template.update(sql, user.getUid());
     }
 }

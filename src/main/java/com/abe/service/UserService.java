@@ -5,8 +5,6 @@ import com.abe.domain.User;
 /**
  * @Author: Abe
  * @Date: 2020/10/7
- * @Description: com.abe.service
- * @version: 1.0
  */
 public interface UserService {
 
@@ -18,4 +16,13 @@ public interface UserService {
      *      false：注册失败
      */
     boolean register(User user);
+
+    /**
+     * 激活用户
+     * @param code String 激活码
+     * @return
+     *      true：激活成功
+     *      false：激活失败
+     */
+    boolean active(String code);
 }

@@ -161,7 +161,7 @@
 						// 发送AJAX请求，提交表单数据	username=Alex&password=123 ...
 						$.post("registerUserServlet", $(this).serialize(), function (data) {
 							// 处理响应数据 data {flag:true/false, errorMsg:"..."}
-							if (data.flag) {	// 注册成功
+							if (data["flag"]) {	// 注册成功
 								// 跳转成功页面
 								location.href = "register_ok.html";
 							} else {			// 注册失败

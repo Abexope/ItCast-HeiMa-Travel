@@ -5,8 +5,6 @@ import com.abe.domain.User;
 /**
  * @Author: Abe
  * @Date: 2020/10/7
- * @Description: com.abe.dao
- * @version: 1.0
  */
 public interface UserDao {
 
@@ -25,4 +23,18 @@ public interface UserDao {
      */
     void save(User user);
 
+    /**
+     * 根据激活码查询用户信息
+     * @param code String 激活码
+     * @return
+     *      查询成功：User Bean 对象
+     *      查询失败：null
+     */
+    User findByCode(String code);
+
+    /**
+     * 更新激活状态
+     * @param user User Bean 对象
+     */
+    void updateStatus(User user);
 }
