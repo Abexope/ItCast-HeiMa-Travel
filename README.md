@@ -75,6 +75,8 @@ USE travel;
 
 什么是退出？将用户信息从session中删除。
 
+前端index.html中点击`退出`时，转向后端 exitServlet，在 exitServlet 中销毁session，同时跳转至 login.html 完成退出流程。
+
 
 
 
