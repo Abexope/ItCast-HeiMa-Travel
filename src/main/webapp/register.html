@@ -64,7 +64,8 @@
 				// 1.获取邮箱
 				let email = $("#email").val();
 				// 2.定义正则
-				let reg_email = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+				// let reg_email = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+				let reg_email = /^\w+@\w+\.\w+$/;
 				// 判断
 				let flag = reg_email.test(email);
 				if (flag) {		// 校验合法
@@ -139,11 +140,9 @@
 				return flag;
 			}
 
-
-
 			/*如果此方法：
-					无返回或返回true，则表单提交
-					返回false，则表单不提交
+				无返回或返回true，则表单提交
+				返回false，则表单不提交
 			 */
 			$(function () {
 				// 当表单提交时调用所有的校验方法
@@ -161,17 +160,20 @@
 					) {			// 校验成功
 						// 发送AJAX请求，提交表单数据	username=Alex&password=123 ...
 						$.post("registerUserServlet", $(this).serialize(), function (data) {
-							// 处理响应数据 data
-
-						})
+							// 处理响应数据 data {flag:true/false, errorMsg:"..."}
+							if (data.flag) {	// 注册成功
+								// 跳转成功页面
+								location.href = "register_ok.html";
+							} else {			// 注册失败
+								// 在注册页面添加提示信息
+								$("#errorMsg").html(data.errorMsg);
+							}
+						});
 					} else {	// 校验失败
 
 					}
-
 					// 2.跳转页面
-
-
-					return false;// ;
+					return false;
 
 				});
 
@@ -200,7 +202,7 @@
     				<p>USER REGISTER</p>
     			</div>
     			<div class="rg_form_center">
-					
+					<div id="errorMsg" style="color: red; text-align: center"></div>
 					<!--注册表单-->
     				<form id="registerForm" action="user">
 						<!--提交处理请求的标识符-->
@@ -271,11 +273,11 @@
     							</td>
     							<td class="td_right check">
     								<input type="text" id="check" name="check" class="check">
-    								<img src="checkCode" height="32px" alt="" onclick="changeCheckCode(this)">
+    								<img src="checkCodeServlet" height="32px" alt="" onclick="changeCheckCode(this)">
 									<script type="text/javascript">
 										//图片点击事件
 										function changeCheckCode(img) {
-											img.src="checkCode?"+new Date().getTime();
+											img.src="checkCodeServlet?"+new Date().getTime();
                                         }
 									</script>
     							</td>

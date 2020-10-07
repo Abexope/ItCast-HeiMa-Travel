@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * 验证码
  */
-@WebServlet("/checkCode")
+@WebServlet("/checkCodeServlet")
 public class CheckCodeServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
@@ -42,7 +42,7 @@ public class CheckCodeServlet extends HttpServlet {
 		//产生4个随机验证码，12Ey
 		String checkCode = getCheckCode();
 		//将验证码放入HttpSession中
-		request.getSession().setAttribute("CHECKCODE_SERVER",checkCode);
+		request.getSession().setAttribute("CheckCode_Server",checkCode);
 		
 		//设置画笔颜色为黄色
 		g.setColor(Color.YELLOW);

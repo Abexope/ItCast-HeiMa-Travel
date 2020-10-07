@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * @Author: Abe
  * @Date: 2020/10/7
- * @Description: ${PACKAGE_NAME}
+ * @Description: com.abe.web.servlet
  * @version: 1.0
  *
  * 用户注册
@@ -27,6 +28,29 @@ import java.util.Map;
 @WebServlet("/registerUserServlet")
 public class RegisterUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // 0.验证码校验
+        HttpSession session = request.getSession();
+        // 获取客户端浏览器提交的验证码
+        String checkCode_browser = request.getParameter("check");
+        session.removeAttribute("check");   // 客户端验证码获取即从Session中移除，保证验证码的一次性
+        // 获取服务器程序 CheckCodeServlet 生成的验证码
+        String checkCode_server = (String) session.getAttribute("CheckCode_Server");
+        // 验证码比对
+        if (!checkCode_server.equalsIgnoreCase(checkCode_browser)) {        // 比对失败
+            ResultInfo resultInfo = new ResultInfo();
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("验证码错误！");
+
+            // 将resultInfo序列化为json字符串
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(resultInfo);
+
+            // 将json数据回写给客户端浏览器
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write(json);
+            return;
+        }
 
         // 1.获取数据
         Map<String, String[]> parameterMap = request.getParameterMap();
