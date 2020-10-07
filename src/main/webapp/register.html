@@ -166,7 +166,7 @@
 								location.href = "register_ok.html";
 							} else {			// 注册失败
 								// 在注册页面添加提示信息
-								$("#errorMsg").html(data.errorMsg);
+								$("#errorMsg").html(data["errorMsg"]);
 							}
 						});
 					} else {	// 校验失败

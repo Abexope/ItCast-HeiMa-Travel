@@ -63,13 +63,17 @@ USE travel;
 
 ### 登陆
 
+![](D:\iJava\ItCast-HeiMa-Travel\img\登录逻辑分析.png)
 
+#### index页面中用户名的提示
 
+![index-header](D:\iJava\ItCast-HeiMa-Travel\img\index-header.png)
 
-
-
+在 LoginServlet 中，在登陆成功的情况下将 loginUser 对象加入到 Session 对象中，index.html 页面会向后台会再次请求登陆用户信息，此时在 FindUserServlet 中从 Session 中获取 loginUser 对象并回写给 index.html 页面实现用户名提示。
 
 ### 退出
+
+什么是退出？将用户信息从session中删除。
 
 
 

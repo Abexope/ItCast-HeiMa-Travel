@@ -25,6 +25,16 @@ public class User implements Serializable {
     }
 
     /**
+     * 登陆验证构造方法
+     * @param username 用户名，账号
+     * @param password 密码
+     */
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
      * 有参构方法
      * @param uid 用户id
      * @param username 用户名，账号

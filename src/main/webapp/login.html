@@ -18,6 +18,27 @@
     <script src="js/angular.min.js"></script>
 	<!--导入jquery-->
 	<script src="js/jquery-3.3.1.js"></script>
+
+	<script>
+
+		$(function () {
+			// 1.给登录按钮绑定事件
+			$("#btn_sub").click(function () {
+				// 2.发送ajax请求，提交表单数据
+				$.post("loginServlet", $("#loginForm").serialize(), function (data) {
+					// data: {flag:true/false, errorMsg, "..."}
+					// 3.处理响应结果
+					if (data["flag"]) {		// 登陆成功
+						location.href = "index.html";
+					} else {				// 登陆失败
+						$("#errorMsg").html(data["errorMsg"]);
+					}
+				});
+			});
+		});
+
+	</script>
+
 </head>
 
 <body>
@@ -39,24 +60,32 @@
         		<div id="errorMsg" class="alert alert-danger" ></div>
 				<form id="loginForm" action="" method="post" accept-charset="utf-8">
         			<input type="hidden" name="action" value="login"/>
-					<input name="username" type="text" placeholder="请输入账号" autocomplete="off">
-        			<input name="password" type="text" placeholder="请输入密码" autocomplete="off">
-        			<div class="verify">
-					<input name="check" type="text" placeholder="请输入验证码" autocomplete="off">
-					<span><img src="checkCode" alt="" onclick="changeCheckCode(this)"></span>
-					<script type="text/javascript">
-						//图片点击事件
-						function changeCheckCode(img) {
-							img.src="checkCode?"+new Date().getTime();
-						}
-					</script>
-			</div>
-			<div class="submit_btn">
-        				<button type="button">登录</button>
-        				<div class="auto_login">
-        					<input type="checkbox" name="" class="checkbox">
-        					<span>自动登录</span>
-        				</div>        				
+					<label>
+						<input name="username" type="text" placeholder="请输入账号" autocomplete="off">
+					</label>
+					<label>
+						<input name="password" type="text" placeholder="请输入密码" autocomplete="off">
+					</label>
+					<div class="verify">
+						<label>
+							<input name="check" type="text" placeholder="请输入验证码" autocomplete="off">
+						</label>
+						<span><img src="checkCodeServlet" alt="" onclick="changeCheckCode(this)"></span>
+						<script type="text/javascript">
+							//图片点击事件
+							function changeCheckCode(img) {
+								img.src="checkCodeServlet?"+new Date().getTime();
+							}
+						</script>
+					</div>
+					<div class="submit_btn">
+						<button type="button" id="btn_sub">登录</button>
+						<div class="auto_login">
+							<label>
+								<input type="checkbox" name="" class="checkbox">
+							</label>
+							<span>自动登录</span>
+						</div>
         			</div>        			       		
         		</form>
         		<div class="reg">没有账户？<a href="javascript:;">立即注册</a></div>
