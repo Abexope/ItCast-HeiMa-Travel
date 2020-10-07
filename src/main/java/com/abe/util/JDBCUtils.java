@@ -3,7 +3,6 @@ package com.abe.util;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,14 +25,12 @@ public class JDBCUtils {
 	// 2. 创建连接池对象
 	static {
 		// 加载配置文件中的数据
-		InputStream is = JDBCUtils.class.getClassLoader().getResourceAsStream("/druid.properties");
+		InputStream is = JDBCUtils.class.getClassLoader().getResourceAsStream("druid.properties");
 		Properties pp = new Properties();
 		try {
 			pp.load(is);
 			// 创建连接池，使用配置文件中的参数
 			ds = DruidDataSourceFactory.createDataSource(pp);
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,19 +51,19 @@ public class JDBCUtils {
 		if (rs != null) {
 			try {
 				rs.close();
-			} catch (SQLException e) {}
+			} catch (SQLException ignored) {}
 		}
 
 		if (stmt != null) {
 			try {
 				stmt.close();
-			} catch (SQLException e) {}
+			} catch (SQLException ignored) {}
 		}
 
 		if (conn != null) {
 			try {
 				conn.close();
-			} catch (SQLException e) {}
+			} catch (SQLException ignored) {}
 		}
 	}
 

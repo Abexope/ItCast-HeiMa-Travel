@@ -64,7 +64,7 @@
 				// 1.获取邮箱
 				let email = $("#email").val();
 				// 2.定义正则
-				let reg_email = /^\w+@\w+\.\w+$/;
+				let reg_email = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 				// 判断
 				let flag = reg_email.test(email);
 				if (flag) {		// 校验合法
