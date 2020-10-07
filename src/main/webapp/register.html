@@ -7,6 +7,187 @@
         <link rel="stylesheet" href="css/register.css">
 		<!--导入jquery-->
 		<script src="js/jquery-3.3.1.js"></script>
+
+		<style>
+			/*CSS样式*/
+		</style>
+
+		<script>
+			/* 表单校验：
+				1.用户名：正则表达式校验，单词字符，长度8~20位
+				2.密码：单词字符，长度8~20位
+				3.email：邮件格式
+				4.姓名：非空
+				5.手机号：正则校验，手机号格式
+				6.出生日期：非空
+				7.验证码：非空
+			 */
+
+			// 校验用户名
+			function checkUsername() {
+				// 1.获取用户名
+				let username = $("#username").val();
+				// 2.定义正则
+				let reg_username = /^\w{8,20}$/;
+				// 正则：单词字符，以单词开头，以单词结尾，长度8~20位，包含8和20
+				// 3.判断并给出提示信息
+				let flag = reg_username.test(username);
+				if (flag) {		// 校验合法
+					$("#username").css("border", "");
+				} else {		// 校验非法
+					// 输入栏边框变红
+					$("#username").css("border", "2px solid red");
+				}
+				return flag;
+			}
+
+			// 校验密码
+			function checkPassword() {
+				// 1.获取密码
+				let password = $("#password").val();
+				// 2.定义正则
+				let reg_username = /^\w{8,20}$/;
+				// 正则：单词字符，以单词开头，以单词结尾，长度8~20位，包含8和20
+				// 3.判断并给出提示信息
+				let flag = reg_username.test(password);
+				if (flag) {		// 校验合法
+					$("#password").css("border", "");
+				} else {		// 校验非法
+					// 输入栏边框变红
+					$("#password").css("border", "2px solid red");
+				}
+				return flag;
+			}
+
+			// 校验邮箱
+			function checkEmail() {
+				// 1.获取邮箱
+				let email = $("#email").val();
+				// 2.定义正则
+				let reg_email = /^\w+@\w+\.\w+$/;
+				// 判断
+				let flag = reg_email.test(email);
+				if (flag) {		// 校验合法
+					$("#email").css("border", "");
+				} else {		// 校验非法
+					// 输入栏边框变红
+					$("#email").css("border", "2px solid red");
+				}
+				return flag;
+			}
+
+			// 校验姓名
+			function checkName() {
+				// 1.获取姓名
+				let name = $("#name").val();
+				// 2.判断
+				let flag = name != null && name.length > 0;		// 非空校验
+				if (flag) {		// 校验合法
+					$("#name").css("border", "");
+				} else {								// 校验非法
+					$("#name").css("border", "2px solid red");
+				}
+				return flag;
+			}
+
+			// 校验手机号
+			function checkTelephone() {
+				// 1.获取手机号
+				let telephone = $("#telephone").val();
+				// 2.定义正则
+				let reg_telephone = /^(1)(3|5|7|8)(\d{9})$/;		// 手机号正则校验
+				// 3.判断
+				let flag = reg_telephone.test(telephone);
+				if (flag) {		// 校验合法
+					$("#telephone").css("border", "");
+				} else {								// 校验非法
+					$("#telephone").css("border", "2px solid red");
+				}
+				return flag;
+			}
+
+			// 校验性别
+			function checkSex() {
+				return true;
+			}
+
+			// 校验出生日期
+			function checkBirthday() {
+				// 1.获取出生日期
+				let birthday = $("#birthday").val();
+				// 2.判断
+				let flag = birthday != null && birthday.length > 0;		// 非空校验
+				if (flag) {		// 校验合法
+					$("#birthday").css("border", "");
+				} else {								// 校验非法
+					$("#birthday").css("border", "2px solid red");
+				}
+				return flag;
+			}
+
+			// 校验验证码
+			function checkCode() {
+				// 1.获取浏览器提交验证码
+				let checkCode = $("#check").val();
+				// 2.判断
+				let flag = checkCode != null && checkCode.length > 0;	// 非空校验
+				if (flag) {		// 校验合法
+					$("#check").css("border", "");
+				} else {								// 校验非法
+					$("#check").css("border", "2px solid red");
+				}
+				return flag;
+			}
+
+
+
+			/*如果此方法：
+					无返回或返回true，则表单提交
+					返回false，则表单不提交
+			 */
+			$(function () {
+				// 当表单提交时调用所有的校验方法
+				$("#registerForm").submit(function () {
+					// 1.发送数据到服务器
+					if (
+							checkUsername() &&			// 用户名校验
+							checkPassword() &&			// 密码校验
+							checkEmail() &&				// 邮箱校验
+							checkName() &&				// 姓名校验
+							checkTelephone() &&			// 手机号校验
+							checkSex() &&				// 性别校验
+							checkBirthday() &&			// 生日校验
+							checkCode()					// 验证码校验
+					) {			// 校验成功
+						// 发送AJAX请求，提交表单数据	username=Alex&password=123 ...
+						$.post("registerUserServlet", $(this).serialize(), function (data) {
+							// 处理响应数据 data
+
+						})
+					} else {	// 校验失败
+
+					}
+
+					// 2.跳转页面
+
+
+					return false;// ;
+
+				});
+
+				// 当某一个组件失去焦点时，调用对应的校验方法
+				$("#username").blur(checkUsername);
+				$("#password").blur(checkPassword);
+				$("#email").blur(checkEmail);
+				$("#name").blur(checkName);
+				$("#telephone").blur(checkTelephone);
+				$("#sex").blur(checkSex);
+				$("#birthday").blur(checkBirthday);
+				$("#check").blur(checkCode);
+
+			})
+		</script>
+
     </head>
 	<body>
 	<!--引入头部-->
@@ -21,7 +202,7 @@
     			<div class="rg_form_center">
 					
 					<!--注册表单-->
-    				<form id="registerForm">
+    				<form id="registerForm" action="user">
 						<!--提交处理请求的标识符-->
 						<input type="hidden" name="action" value="register">
     					<table style="margin-top: 25px;">
@@ -71,7 +252,9 @@
     							</td>
     							<td class="td_right gender">
     								<input type="radio" id="sex" name="sex" value="男" checked> 男
-    								<input type="radio" name="sex" value="女"> 女
+									<label>
+										<input type="radio" name="sex" value="女">
+									</label> 女
     							</td>
     						</tr>
     						<tr>
