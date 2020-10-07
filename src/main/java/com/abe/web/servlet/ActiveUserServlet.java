@@ -13,6 +13,8 @@ import java.io.IOException;
 /**
  * @Author: Abe
  * @Date: 2020/10/7
+ *
+ * 用户激活
  */
 @WebServlet("/activeUserServlet")
 public class ActiveUserServlet extends HttpServlet {
