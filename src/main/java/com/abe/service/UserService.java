@@ -27,4 +27,13 @@ public interface UserService {
      *      false：激活失败
      */
     boolean active(String code);
+
+    /**
+     * 登录用户
+     * @param user 用户名
+     * @return
+     *      true：激活成功
+     *      false：激活失败
+     */
+    User login(User user);
 }
