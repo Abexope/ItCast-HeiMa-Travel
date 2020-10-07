@@ -10,6 +10,8 @@ import com.abe.util.UuidUtil;
 /**
  * @Author: Abe
  * @Date: 2020/10/7
+ *
+ * 用户业务逻辑实现类
  */
 public class UserServiceImpl implements UserService {
 
