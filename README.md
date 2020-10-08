@@ -111,7 +111,7 @@ hader.html加载后，发送ajax请求，请求category/findAll
 
 ![分类数据展示缓存优化](D:\iJava\ItCast-HeiMa-Travel\img\分类数据展示缓存优化.png)
 
-#### 优化代码实现
+##### 优化代码实现
 
 期望数据中存储的顺序就是将来展示的顺序，使用redis的sortedset
 
