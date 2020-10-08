@@ -125,21 +125,19 @@ hader.html加载后，发送ajax请求，请求category/findAll
 
 #### 类别id的传递
 
-Redis中查询score（cid）
+Redis中查询score（cid）：页面传递cid
 
-页面传递cid
-
-header.html传递cid
-
-获取cid
+header.html传递cid：获取cid
 
 #### 根据id查询不同类别的旅游线路数据
 
 ![根据id查询旅游线路](D:\iJava\ItCast-HeiMa-Travel\img\根据id查询旅游线路.png)
 
+### 旅游线路模糊查询
 
+![旅游线路查询前端](D:\iJava\ItCast-HeiMa-Travel\img\旅游线路查询前端.png)
 
-
+在前端搜索框中输入关键词，后端根据前端提交的数据在数据库中做模糊查询（LIKE)。在此功能中将 Category dao 中的固定sql语句改为动态sql语句，在设置基础sql语句的基础上，根据不同的查询条件拼接对应的子句。
 
 
 
