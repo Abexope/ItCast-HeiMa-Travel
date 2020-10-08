@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * @Author: Abe
  * @Date: 2020/10/8
+ *
+ * 分类相关业务接口
  */
 public interface CategoryService {
 

@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * @Author: Abe
  * @Date: 2020/10/8
+ *
+ * 分类相关数据库查询接口
  */
 public interface CategoryDao {
 

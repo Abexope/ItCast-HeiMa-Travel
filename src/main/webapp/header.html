@@ -21,7 +21,7 @@
             let lis = '<li class="nav-active"><a href="index.html">首页</a></li>';
             // 遍历data数组，拼接字符串（<li>...</li>）
             for (let i = 0; i < data.length; i ++) {
-                lis += '<li><a href="route_list.html">' + data[i]["cname"] + '</a></li>';
+                lis += '<li><a href="route_list.html?cid=' + data[i]["cid"] + '">' + data[i]["cname"] + '</a></li>';
             }
             // 拼接收藏排行榜<li><a href="favoriterank.html">收藏排行榜</a></li>
             lis += '<li><a href="favoriterank.html"></a></li>';
