@@ -67,7 +67,6 @@ public class UserServlet extends BaseServlet {
         }
 
         // 3.调用service完成注册
-        // UserService service = new UserServiceImpl();
         boolean flag = service.register(user);
         ResultInfo resultInfo = new ResultInfo();
 
@@ -94,7 +93,6 @@ public class UserServlet extends BaseServlet {
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ResultInfo resultInfo = new ResultInfo();
-        ObjectMapper mapper = new ObjectMapper();
         HttpSession session = request.getSession();
 
         // 0.验证码核对
@@ -107,16 +105,14 @@ public class UserServlet extends BaseServlet {
 //            String json = mapper.writeValueAsString(resultInfo);
 //            System.out.println(json);
             // 回写客户端浏览器
-            response.setContentType("application/json:charset:utf-8");
 //            response.getWriter().write(json);     // why not...
-            mapper.writeValue(response.getOutputStream(), resultInfo);
+            /*response.setContentType("application/json:charset:utf-8");
+            mapper.writeValue(response.getOutputStream(), resultInfo);*/
+            this.writeValue(resultInfo, response);
             return;
         }   // else 验证通过
 
         // 1.获取用户信息
-        /*String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        User user = new User(username, password);*/
         Map<String, String[]> parameterMap = request.getParameterMap();
 
         // 2.封装 User Bean 对象
@@ -128,7 +124,6 @@ public class UserServlet extends BaseServlet {
         }
 
         // 3.调用service查询user
-        // UserService service = new UserServiceImpl();
         User loginUser = service.login(user);
 
         // 4.判断用户是否存在
@@ -150,8 +145,9 @@ public class UserServlet extends BaseServlet {
         }
 //        String json = mapper.writeValueAsString(resultInfo);
 //        System.out.println(json);
-        response.setContentType("application/json:charset:utf-8");
-        mapper.writeValue(response.getOutputStream(), resultInfo);
+        /*response.setContentType("application/json:charset:utf-8");
+        mapper.writeValue(response.getOutputStream(), resultInfo);*/
+        this.writeValue(resultInfo, response);
 //        response.getWriter().write(json);     // why not...
     }
 
@@ -185,9 +181,7 @@ public class UserServlet extends BaseServlet {
         // 从session中获取登录用户
         User user = (User) request.getSession().getAttribute("user");
         // 将user写回客户端
-        ObjectMapper mapper = new ObjectMapper();
-        response.setContentType("application/json;charset=utf-8");
-        mapper.writeValue(response.getOutputStream(), user);
+        this.writeValue(user, response);
     }
 
     /**

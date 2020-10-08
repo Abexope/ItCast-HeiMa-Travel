@@ -83,5 +83,69 @@ USE travel;
 
  <img src="D:\iJava\ItCast-HeiMa-Travel\img\Servlet功能抽取.png" alt="Servlet功能抽取"  />
 
+### 分类数据展示
+
+#### 展示效果
+
+![分类数据展示效果](D:\iJava\ItCast-HeiMa-Travel\img\分类数据展示效果.png)
+
+#### 功能分析
+
+![分类数据展示功能分析](D:\iJava\ItCast-HeiMa-Travel\img\分类数据展示功能分析.png)
+
+#### 代码实现
+
+##### 后台代码
+
+三层架构：CategoryServlet - CategoryService - CategoryDao
+
+功能抽取：在BaseServlet中封装了序列化json的方法
+
+##### 前台代码
+
+hader.html加载后，发送ajax请求，请求category/findAll
+
+#### 缓存优化
+
+分析发现，分类的数据在每一次页面加载后都会重新请求数据库来加载，对数据库的压力比较大，而且分类的数据不会经常产生变化，所有可以使用redis来缓存这个数据。
+
+![分类数据展示缓存优化](D:\iJava\ItCast-HeiMa-Travel\img\分类数据展示缓存优化.png)
+
+#### 优化代码实现
+
+期望数据中存储的顺序就是将来展示的顺序，使用redis的sortedset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
