@@ -16,8 +16,9 @@ public interface RouteService {
      * @param cid 类别id
      * @param currentPage 当前页数
      * @param pageSize 每页显示条数
+     * @param rname 搜索文本：线路名称
      * @return PageBean 封装对象
      */
-    PageBean<Route> pageQuery(int cid, int currentPage, int pageSize);
+    PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname);
 
 }

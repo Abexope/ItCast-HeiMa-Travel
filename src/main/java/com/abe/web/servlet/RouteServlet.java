@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @Author: Abe
@@ -29,6 +30,12 @@ public class RouteServlet extends BaseServlet {
         String cidStr = request.getParameter("cid");                        // 类别id
         String currentPageStr = request.getParameter("currentPage");        // 当前页数
         String pageSizeStr = request.getParameter("pageSize");              // 每页显示条数
+        String rname = request.getParameter("rname");                       // 搜索文本：线路名称
+
+        /*tomcat7存在中文乱码问题*/
+        if (rname != null && rname.length() > 0) {
+            rname = new String(rname.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        }
 
         // 2.处理参数
         int cid = this.parseInt(cidStr, 0);
@@ -36,7 +43,7 @@ public class RouteServlet extends BaseServlet {
         int pageSize = this.parseInt(pageSizeStr, 5);
 
         // 3.调用service查询PageBean对象
-        PageBean<Route> routePageBean = service.pageQuery(cid, currentPage, pageSize);
+        PageBean<Route> routePageBean = service.pageQuery(cid, currentPage, pageSize, rname);
 
         // 4.将PageBean对象序列化json并回写客户端浏览器
         this.writeValue(routePageBean, response);
