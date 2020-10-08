@@ -59,7 +59,8 @@ public class RouteServlet extends BaseServlet {
      *      类型转换异常，避免传入的字符串内容不是数字
      */
     private int parseInt(String numStr, int defaultValue) throws ClassCastException {
-        return (numStr != null && numStr.length() > 0) ? Integer.parseInt(numStr) : defaultValue;
+        return (numStr != null && numStr.length() > 0 && !"null".equalsIgnoreCase(numStr))
+                ? Integer.parseInt(numStr) : defaultValue;      // 注意：浏览器提交的空值到后台会被识别为<字符串"null">
     }
 
 }

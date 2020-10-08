@@ -27,16 +27,16 @@
             }
 
             // 当页面加载完成后，调用load方法发送AJAX请求加载数据
-            load(cid);
+            load(cid, null, rname);
 
         });
 
         /**
          * 分页请求函数
          */
-        function load(cid, currentPage) {
+        function load(cid, currentPage, rname) {
             // 发送AJAX请求，请求route/pageQuery，传递cid
-            $.get("route/pageQuery", {cid: cid, currentPage: currentPage}, function (pageBean) {
+            $.get("route/pageQuery", {cid: cid, currentPage: currentPage, rname: rname}, function (pageBean) {
                 // 解析pageBean数据，展示到页面上
 
                 // 1.分页工具条数据展示
@@ -62,9 +62,9 @@
                 */
 
                 let pageLis = "";
-                let firstPage = '<li onclick="load('+ cid +','+ 1 +')"><a href="javascript:void(0)">首页</a></li>';
+                let firstPage = '<li onclick="load('+ cid +','+ 1 + ',\''+ rname +'\')"><a href="javascript:void(0)">首页</a></li>';
                 let previousPageNum = pageBean.currentPage-1 < 1 ? 1 : pageBean.currentPage-1;      // 计算上一页页码
-                let previousPage = '<li onclick="load('+ cid +','+ previousPageNum +')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+                let previousPage = '<li onclick="load('+ cid +','+ previousPageNum +',\''+ rname +'\')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
                 pageLis += firstPage + previousPage;
                 // 1.2 展示分页页码
                 /* 显示部分页面
@@ -72,8 +72,6 @@
                     2.如果前面不够5个，后面补齐10个
                     3.如果后面不足4个，前面补齐10个
                 */
-
-
                 /*for (let i = 1; i <= pageBean["totalPage"]; i ++) {
                     let li;
                     if (pageBean["currentPage"] === i) {
@@ -110,19 +108,19 @@
                     let li;
                     if (pageBean["currentPage"] === i) {
                         // 对当前页码添加特殊的CSS样式
-                        li = '<li class="curPage" onclick="load('+ cid +','+ i +')"><a href="javascript:void(0)">'+ i +'</a></li>';
+                        li = '<li class="curPage" onclick="load('+ cid +','+ i +',\''+ rname +'\')"><a href="javascript:void(0)">'+ i +'</a></li>';
                     } else {
-                        li = '<li onclick="load('+ cid +','+ i +')"><a href="javascript:void(0)">'+ i +'</a></li>';
+                        li = '<li onclick="load('+ cid +','+ i +',\''+ rname +'\')"><a href="javascript:void(0)">'+ i +'</a></li>';
                     }
                     pageLis += li;
                 }
 
                 let nextPageNum = pageBean.currentPage+1 > pageBean["totalPage"] ? pageBean["totalPage"] : pageBean.currentPage+1;      // 计算下一页页码
-                let nextPage = '<li onclick="load('+ cid +','+ nextPageNum +')" class="threeword"><a href="javascript:;">下一页</a></li>';
-                let lastPage = '<li onclick="load('+ cid +','+ pageBean["totalPage"] +')" class="threeword"><a href="javascript:;">末页</a></li>';
+                let nextPage = '<li onclick="load('+ cid +','+ nextPageNum +',\''+ rname +'\')" class="threeword"><a href="javascript:;">下一页</a></li>';
+                let lastPage = '<li onclick="load('+ cid +','+ pageBean["totalPage"] +',\''+ rname +'\')" class="threeword"><a href="javascript:;">末页</a></li>';
                 pageLis += nextPage + lastPage;
 
-                // 将lis内容设置到ul中 `
+                // 将lis内容设置到ul中
                 $("#ulPageNum").html(pageLis);
 
                 // 2.列表数据展示
@@ -151,21 +149,21 @@
                     // 获取一个 Route Bean 对象
                     let route = pageBean.list[i];
                     let li = '<li>\n' +
-                        '                        <div class="img"><img src="'+ route["rimage"] +'" style="width: 299px"></div>\n' +
-                        '                        <div class="text1">\n' +
-                        '                            <p>'+ route["rname"] +'</p>\n' +
-                        '                            <br/>\n' +
-                        '                            <p>'+ route["routeIntroduce"] +'</p>\n' +
-                        '                        </div>\n' +
-                        '                        <div class="price">\n' +
-                        '                            <p class="price_num">\n' +
-                        '                                <span>&yen;</span>\n' +
-                        '                                <span>'+ route["price"] +'</span>\n' +
-                        '                                <span>起</span>\n' +
-                        '                            </p>\n' +
-                        '                            <p><a href="route_detail.html">查看详情</a></p>\n' +
-                        '                        </div>\n' +
-                        '                    </li>';
+        '                        <div class="img"><img src="'+ route["rimage"] +'" style="width: 299px"></div>\n' +
+        '                        <div class="text1">\n' +
+        '                            <p>'+ route["rname"] +'</p>\n' +
+        '                            <br/>\n' +
+        '                            <p>'+ route["routeIntroduce"] +'</p>\n' +
+        '                        </div>\n' +
+        '                        <div class="price">\n' +
+        '                            <p class="price_num">\n' +
+        '                                <span>&yen;</span>\n' +
+        '                                <span>'+ route["price"] +'</span>\n' +
+        '                                <span>起</span>\n' +
+        '                            </p>\n' +
+        '                            <p><a href="route_detail.html">查看详情</a></p>\n' +
+        '                        </div>\n' +
+        '                    </li>';
                     routeLis += li;
                 }
                 $("#route").html(routeLis);
