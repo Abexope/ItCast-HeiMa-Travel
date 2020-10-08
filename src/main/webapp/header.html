@@ -2,7 +2,7 @@
 
 <script>
     $(function () {
-        $.get("findUserServlet", {}, function (data) {
+        $.get("user/findOne", {}, function (data) {
             // data: {uid:...,username:...}
             let msg = "欢迎回来，" + data["username"];
             $("#span_username").html(msg);
@@ -25,7 +25,7 @@
 
             <span id="span_username"></span>
             <a href="myfavorite.html" class="collection">我的收藏</a>
-            <a href="exitServlet">退出</a>
+            <a href="user/exit">退出</a>
         </div>
     </div>
     <div class="header_wrap">

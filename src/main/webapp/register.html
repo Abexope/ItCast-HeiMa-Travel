@@ -159,7 +159,7 @@
 							checkCode()					// 验证码校验
 					) {			// 校验成功
 						// 发送AJAX请求，提交表单数据	username=Alex&password=123 ...
-						$.post("registerUserServlet", $(this).serialize(), function (data) {
+						$.post("user/register", $(this).serialize(), function (data) {
 							// 处理响应数据 data {flag:true/false, errorMsg:"..."}
 							if (data["flag"]) {	// 注册成功
 								// 跳转成功页面

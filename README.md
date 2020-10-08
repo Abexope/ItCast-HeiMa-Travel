@@ -77,9 +77,11 @@ USE travel;
 
 前端index.html中点击`退出`时，转向后端 exitServlet，在 exitServlet 中销毁session，同时跳转至 login.html 完成退出流程。
 
+### Servlet优化
 
+减少Servlet的数量，现在是一个功能一个Servlet，将其优化为一个模块一个Servlet，相当于在数据库中一张表对应一个Servlet，在Servlet中提供不同的方法，完成用户的请求。
 
-
+ <img src="D:\iJava\ItCast-HeiMa-Travel\img\Servlet功能抽取.png" alt="Servlet功能抽取"  />
 
 
 

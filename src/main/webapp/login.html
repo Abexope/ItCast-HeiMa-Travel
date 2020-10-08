@@ -25,7 +25,7 @@
 			// 1.给登录按钮绑定事件
 			$("#btn_sub").click(function () {
 				// 2.发送ajax请求，提交表单数据
-				$.post("loginServlet", $("#loginForm").serialize(), function (data) {
+				$.post("user/login", $("#loginForm").serialize(), function (data) {
 					// data: {flag:true/false, errorMsg, "..."}
 					// 3.处理响应结果
 					if (data["flag"]) {		// 登陆成功
