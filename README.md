@@ -115,7 +115,27 @@ hader.html加载后，发送ajax请求，请求category/findAll
 
 期望数据中存储的顺序就是将来展示的顺序，使用redis的sortedset
 
+### 旅游线路分页展示
 
+点击了不同的分类后，将来看到的旅游线路不一样的。通过分析数据库表结构，发现，旅游线路表和分类表时一个多对一的关系
+
+![旅游线路表和分类表的关系](D:\iJava\ItCast-HeiMa-Travel\img\旅游线路表和分类表的关系.png)
+
+查询不同分类的旅游线路sql：Select * from tab_route where cid = ?;
+
+#### 类别id的传递
+
+Redis中查询score（cid）
+
+页面传递cid
+
+header.html传递cid
+
+获取cid
+
+#### 根据id查询不同类别的旅游线路数据
+
+![根据id查询旅游线路](D:\iJava\ItCast-HeiMa-Travel\img\根据id查询旅游线路.png)
 
 
 
