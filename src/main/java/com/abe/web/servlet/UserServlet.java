@@ -88,7 +88,7 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
-     * 用户注册方法
+     * 用户登陆方法
      */
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -162,7 +162,7 @@ public class UserServlet extends BaseServlet {
             // UserService service = new UserServiceImpl();
             boolean flag = service.active(code);
             // 3.判断标记
-            String msg = null;
+            String msg;
             if (flag) {     // 激活成功
                 msg = "激活成功，请<a href='../login.html'>登录</a>";
             } else {        // 激活失败

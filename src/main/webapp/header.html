@@ -8,9 +8,9 @@
         /**
          * 查询用户信息
          */
-        $.get("user/findOne", {}, function (data) {
-            // data: {uid:...,username:...}
-            let msg = "欢迎回来，" + data["username"];
+        $.get("user/findOne", {}, function (user) {
+            // user: {uid:...,username:...}
+            let msg = "欢迎回来，" + user["username"];
             $("#span_username").html(msg);
         });
 

@@ -28,4 +28,14 @@ public class FavoriteServiceImpl implements FavoriteService {
         Favorite favorite = favoriteDao.findByRidAndUid(Integer.parseInt(rid), uid);
         return favorite != null;    // 对象非空返回true，为空返回false
     }
+
+    /**
+     * 添加收藏路线
+     * @param rid 旅游路线id
+     * @param uid 用户id
+     */
+    @Override
+    public void add(String rid, int uid) {
+        favoriteDao.add(Integer.parseInt(rid), uid);
+    }
 }

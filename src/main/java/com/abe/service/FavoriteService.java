@@ -18,4 +18,11 @@ public interface FavoriteService {
      */
     boolean isFavorite(String rid, int uid);
 
+    /**
+     * 添加收藏路线
+     * @param rid 旅游路线id
+     * @param uid 用户id
+     */
+    void add(String rid, int uid);
+
 }

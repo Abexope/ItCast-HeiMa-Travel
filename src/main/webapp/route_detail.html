@@ -72,7 +72,7 @@
                     <p class="collect">
 
                         <!--收藏按钮1-->
-                        <a class="btn" id="favorite"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
+                        <a onclick="addFavorite();" class="btn" id="favorite"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
 
                         <!--收藏按钮2-->
                         <!--<a  class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>-->
@@ -124,6 +124,10 @@
     <script src="js/getParameter.js"></script>
 
     <script>
+
+    /**
+     * 图片渲染
+     */
     $(document).ready(function() {
 
         goImg();
@@ -132,8 +136,10 @@
         var timer = setInterval("auto_play()", 5000);
     });
 
+    /**
+     * 焦点图效果
+     */
     function goImg() {
-        //焦点图效果
         //点击图片切换图片
         $('.little_img').on('mousemove', function() {
             $('.little_img').removeClass('cur_img');
@@ -164,7 +170,9 @@
         });
     }
 
-    //自动轮播方法
+    /**
+     * 自动轮播方法
+     */
     function auto_play() {
         var cur_index = $('.prosum_left dd').find('a.cur_img').index();
         cur_index = cur_index - 1;
@@ -279,21 +287,58 @@
         });
     });
 
-
-    $(function () {
-        // 发送请求，判断用户是否收藏过该线路
+    /**
+     * 发送请求，判断用户是否收藏过该线路
+     */
+    $(function fun () {
         let rid = getParameter("rid");
         $.get("route/isFavorite", {rid: rid}, function (flag) {
             if (flag) {     // 用户已收藏
                 // 设置收藏按钮样式 <a  class="btn already" disabled="disabled">
                 let favor_selector = $("#favorite");
                 favor_selector.addClass("already");
-                favor_selector.prop("disabled", disabled)
+                favor_selector.attr("disabled", "disabled");
+                // 删除按钮点击事件
+                $("#favorite").removeAttr("onclick");
             } else {        // 用户未收藏
 
             }
+        });
+    });
+
+    /**
+     * 点击收藏按钮触发方法
+     */
+    function addFavorite() {
+        var rid = getParameter("rid");
+        // 1.判断用户是否登陆
+        $.get("user/findOne", {}, function (user) {
+            if (user) {     // 用户登陆
+                $.get("route/addFavorite", {rid: rid}, function () { });
+
+                // 按钮渲染更新方式1：刷新页面
+                // location.reload();
+
+                // 按钮渲染更新方式2：发送一个异步请求
+                $.get("route/isFavorite", {rid: rid}, function (flag) {
+                    if (flag) {     // 用户已收藏
+                        // 设置收藏按钮样式 <a  class="btn already" disabled="disabled">
+                        let favor_selector = $("#favorite");
+                        favor_selector.addClass("already");
+                        favor_selector.attr("disabled", "disabled");
+                        // 删除按钮点击事件
+                        $("#favorite").removeAttr("onclick");
+                    }
+                });
+
+            } else {        // 用户未登录
+                alert("您尚未登陆，请登录");
+                location.href = "http://localhost/travel/login.html";
+            }
         })
-    })
+    }
+
+
 
     </script>
 </body>

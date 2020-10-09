@@ -83,6 +83,20 @@ public class RouteServlet extends BaseServlet {
     }
 
     /**
+     * 添加收藏
+     */
+    public void addFavorite(HttpServletRequest request, HttpServletResponse response) {
+        // 1.获取线路id
+        String rid = request.getParameter("rid");
+        // 2.获取用户id
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) return;   // 未登录无法收藏，直接跳出方法
+        int uid = user.getUid();
+        // 3.调用service执行添加收藏
+        favoriteService.add(rid, uid);
+    }
+
+    /**
      * 字符串数字类型转换方法
      *      将数字字符串转换为数字，例如："5" -> 5
      * @param numStr 数字字符串
