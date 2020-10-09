@@ -22,7 +22,7 @@
         </div>
         <div class="prosum_box">
             <dl class="prosum_left">
-                <dt>
+                <dt id="dt">
                     <!--左侧大图-->
                     <img alt="" class="big_img" src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m49788843d72171643297ccc033d9288ee.jpg">
                 </dt>
@@ -243,6 +243,11 @@
             $("#address").html(route.seller.address);
 
             // 图片展示
+            // 先加载左侧大图
+            let dtstr = '<img alt="" class="big_img" src="'+ route.routeImgList[0].bigPic +'">\n';
+            $("#dt").html(dtstr);
+
+            // 加载右侧小图，同时更新对应的左侧大图
             let ddstr = '<a class="up_img up_img_disable"></a>';
             // 遍历 routeImgList
             for (let i = 0; i < route.routeImgList.length; i ++) {
