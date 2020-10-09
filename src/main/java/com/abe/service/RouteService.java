@@ -21,4 +21,10 @@ public interface RouteService {
      */
     PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname);
 
+    /**
+     * 根据线路id查询详细信息
+     * @param rid 线路id
+     * @return Route Bean 对象
+     */
+    Route findOne(String rid);
 }

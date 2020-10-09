@@ -73,4 +73,17 @@ public class RouteServlet extends BaseServlet {
         return null;
     }
 
+    /**
+     * 查询单个旅游路线的详细信息
+     */
+    public void findOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 1.接收线路id
+        String rid = request.getParameter("rid");
+        rid = this.parseStr(rid);   // 主要防止获取的"null"字符串
+        // 2.调用service查询
+        Route route = service.findOne(rid);
+        // 3.回写给客户端浏览器
+        this.writeValue(route, response);
+    }
+
 }

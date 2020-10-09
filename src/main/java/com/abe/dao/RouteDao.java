@@ -26,4 +26,11 @@ public interface RouteDao {
      * @return Route Bean 对象构成的List集合
      */
     List<Route> findByPage(int cid, int start, int pageSize, String rname);
+
+    /**
+     * 根据线路id查询详细信息
+     * @param rid 线路id
+     * @return Route Bean 对象
+     */
+    Route findOne(int rid);
 }
