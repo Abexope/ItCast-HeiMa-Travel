@@ -32,15 +32,11 @@ public class RouteServlet extends BaseServlet {
         String pageSizeStr = request.getParameter("pageSize");              // 每页显示条数
         String rname = request.getParameter("rname");                       // 搜索文本：线路名称
 
-        /*tomcat7存在中文乱码问题*/
-        if (rname != null && rname.length() > 0) {
-            rname = new String(rname.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-        }
-
         // 2.处理参数
         int cid = this.parseInt(cidStr, 0);
         int currentPage = this.parseInt(currentPageStr, 1);
         int pageSize = this.parseInt(pageSizeStr, 5);
+        rname = parseStr(rname);
 
         // 3.调用service查询PageBean对象
         PageBean<Route> routePageBean = service.pageQuery(cid, currentPage, pageSize, rname);
@@ -61,6 +57,20 @@ public class RouteServlet extends BaseServlet {
     private int parseInt(String numStr, int defaultValue) throws ClassCastException {
         return (numStr != null && numStr.length() > 0 && !"null".equalsIgnoreCase(numStr))
                 ? Integer.parseInt(numStr) : defaultValue;      // 注意：浏览器提交的空值到后台会被识别为<字符串"null">
+    }
+
+    /**
+     * 非数字字符串参数处理方法
+     * @param str 字符串对象
+     * @return 处理后的字符串对象
+     */
+    private String parseStr(String str) {
+        /*tomcat7存在中文乱码问题*/
+        if (str != null && str.length() > 0 && !"null".equalsIgnoreCase(str)) {
+            str = new String(str.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+            return str;
+        }
+        return null;
     }
 
 }
