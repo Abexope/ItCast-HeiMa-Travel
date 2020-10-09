@@ -21,13 +21,14 @@
             let cid = getParameter("cid");
             // 获取rname的参数值
             let rname = getParameter("rname");
+            let currentPage = getParameter("currentPage");
 
             if (rname) {
                 rname = window.decodeURIComponent(rname);   // URI解码
             }
 
             // 当页面加载完成后，调用load方法发送AJAX请求加载数据
-            load(cid, null, rname);
+            load(cid, currentPage, rname);
 
         });
 
@@ -62,9 +63,11 @@
                 */
 
                 let pageLis = "";
-                let firstPage = '<li onclick="load('+ cid +','+ 1 + ',\''+ rname +'\')"><a href="javascript:void(0)">首页</a></li>';
+                // let href = '"localhost/travel/route_list.html?cid="''';
+                let firstPage = '<li onclick="load('+ cid +','+ 1 + ',\''+ rname +'\')"><a href="route_list.html?cid='+ cid +'">首页</a></li>';
                 let previousPageNum = pageBean.currentPage-1 < 1 ? 1 : pageBean.currentPage-1;      // 计算上一页页码
-                let previousPage = '<li onclick="load('+ cid +','+ previousPageNum +',\''+ rname +'\')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+                let previousPage = '<li onclick="load('+ cid +','+ previousPageNum +',\''+ rname +'\')" class="threeword">' +
+                    '<a href="route_list.html?cid='+ cid +'&currentPage='+ previousPageNum +'">上一页</a></li>';
                 pageLis += firstPage + previousPage;
                 // 1.2 展示分页页码
                 /* 显示部分页面
@@ -72,17 +75,6 @@
                     2.如果前面不够5个，后面补齐10个
                     3.如果后面不足4个，前面补齐10个
                 */
-                /*for (let i = 1; i <= pageBean["totalPage"]; i ++) {
-                    let li;
-                    if (pageBean["currentPage"] === i) {
-                        // 对当前页码添加特殊的CSS样式
-                        li = '<li class="curPage" onclick="load('+ cid +','+ i +')"><a href="javascript:void(0)">'+ i +'</a></li>';
-                    } else {
-                        li = '<li onclick="load('+ cid +','+ i +')"><a href="javascript:void(0)">'+ i +'</a></li>';
-                    }
-                    pageLis += li;
-                }*/
-
                 // 定义开始位置 begin，结束位置 end
                 let begin, end;
                 // 1.要显示10个页码
@@ -90,8 +82,8 @@
                     begin = 1;
                     end = pageBean["totalPage"];
                 } else {    // 总页码超过10页
-                    begin = pageBean.currentPage - 5;
-                    end = pageBean.currentPage + 4;
+                    begin = currentPage - 5;
+                    end = currentPage + 4;
                     // 2.如果前面不够5个，后面补齐10个
                     if (begin < 1) {
                         begin = 1;
@@ -108,16 +100,20 @@
                     let li;
                     if (pageBean["currentPage"] === i) {
                         // 对当前页码添加特殊的CSS样式
-                        li = '<li class="curPage" onclick="load('+ cid +','+ i +',\''+ rname +'\')"><a href="javascript:void(0)">'+ i +'</a></li>';
+                        li = '<li class="curPage" onclick="load('+ cid +','+ i +',\''+ rname +'\')">' +
+                            '<a href="route_list.html?cid='+ cid +'&currentPage='+ i +'">'+ i +'</a></li>';
                     } else {
-                        li = '<li onclick="load('+ cid +','+ i +',\''+ rname +'\')"><a href="javascript:void(0)">'+ i +'</a></li>';
+                        li = '<li onclick="load('+ cid +','+ i +',\''+ rname +'\')">' +
+                            '<a href="route_list.html?cid='+ cid +'&currentPage='+ i +'">'+ i +'</a></li>';
                     }
                     pageLis += li;
                 }
 
                 let nextPageNum = pageBean.currentPage+1 > pageBean["totalPage"] ? pageBean["totalPage"] : pageBean.currentPage+1;      // 计算下一页页码
-                let nextPage = '<li onclick="load('+ cid +','+ nextPageNum +',\''+ rname +'\')" class="threeword"><a href="javascript:;">下一页</a></li>';
-                let lastPage = '<li onclick="load('+ cid +','+ pageBean["totalPage"] +',\''+ rname +'\')" class="threeword"><a href="javascript:;">末页</a></li>';
+                let nextPage = '<li onclick="load('+ cid +','+ nextPageNum +',\''+ rname +'\')" class="threeword">' +
+                    '<a href="route_list.html?cid='+ cid +'&currentPage='+ nextPageNum +'">下一页</a></li>';
+                let lastPage = '<li onclick="load('+ cid +','+ pageBean["totalPage"] +',\''+ rname +'\')" class="threeword">' +
+                    '<a href="route_list.html?cid='+ cid +'&currentPage='+ pageBean.totalPage +'">末页</a></li>';
                 pageLis += nextPage + lastPage;
 
                 // 将lis内容设置到ul中
@@ -168,8 +164,8 @@
                 }
                 $("#route").html(routeLis);
 
-                // 定位到页面顶部
-                window.scrollTo(0, 0);
+                // 定位到页面顶部，取消是为了用户浏览的连续性
+                // window.scrollTo(0, 0);
 
             });
         }
