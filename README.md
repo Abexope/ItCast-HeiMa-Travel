@@ -153,13 +153,25 @@ header.html传递cid：获取cid
 
 将routeImg和seller封装至route的对应属性中，进而将route对象返回至Servlet层序列化为json对象回写给客户端浏览器。
 
+### 旅游线路收藏
+
+#### 判断线路是否被收藏
+
+当页面加载完成后，发送ajax请求，获取用户是否收藏的标记。根据标记，展示不同的按钮样式
+
+- 功能分析
+
+![线路收藏-相关数据库表格关系](D:\iJava\ItCast-HeiMa-Travel\img\线路收藏-相关数据库表格关系.png)
+
+![线路收藏-功能分析](D:\iJava\ItCast-HeiMa-Travel\img\线路收藏-功能分析.png)
+
+#### 收藏次数动态提示
 
 
 
 
 
-
-
+#### 点击`收藏`按钮实现收藏操作
 
 
 
