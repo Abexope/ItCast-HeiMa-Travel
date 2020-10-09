@@ -2,7 +2,10 @@ package com.abe.web.servlet;
 
 import com.abe.domain.PageBean;
 import com.abe.domain.Route;
+import com.abe.domain.User;
+import com.abe.service.FavoriteService;
 import com.abe.service.RouteService;
+import com.abe.service.impl.FavoriteServiceImpl;
 import com.abe.service.impl.RouteServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +23,8 @@ import java.nio.charset.StandardCharsets;
 @WebServlet("/route/*")
 public class RouteServlet extends BaseServlet {
 
-    private RouteService service = new RouteServiceImpl();
+    private RouteService routeService = new RouteServiceImpl();
+    private FavoriteService favoriteService = new FavoriteServiceImpl();
 
     /**
      * 分页查询方法
@@ -39,11 +43,43 @@ public class RouteServlet extends BaseServlet {
         rname = parseStr(rname);
 
         // 3.调用service查询PageBean对象
-        PageBean<Route> routePageBean = service.pageQuery(cid, currentPage, pageSize, rname);
+        PageBean<Route> routePageBean = routeService.pageQuery(cid, currentPage, pageSize, rname);
 
         // 4.将PageBean对象序列化json并回写客户端浏览器
         this.writeValue(routePageBean, response);
 
+    }
+
+    /**
+     * 查询单个旅游路线的详细信息
+     */
+    public void findOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 1.接收线路id
+        String rid = request.getParameter("rid");
+        rid = this.parseStr(rid);   // 主要防止获取的"null"字符串
+        // 2.调用service查询
+        Route route = routeService.findOne(rid);
+        // 3.回写给客户端浏览器
+        this.writeValue(route, response);
+    }
+
+    /**
+     * 判断当前用户是否收藏了指定rid对应的旅游线路
+     */
+    public void isFavorite(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 1.接收线路id
+        String rid = request.getParameter("rid");
+        rid = this.parseStr(rid);   // 主要防止获取的"null"字符串
+
+        // 2.获取当前登陆用户
+        User user = (User) request.getSession().getAttribute("user");
+        int uid = user == null ? 0 : user.getUid();     // 获取用户的uid
+
+        // 3.调用service查询
+        boolean flag = favoriteService.isFavorite(rid, uid);
+
+        // 4.回写给客户端浏览器
+        writeValue(flag, response);
     }
 
     /**
@@ -71,19 +107,6 @@ public class RouteServlet extends BaseServlet {
             return str;
         }
         return null;
-    }
-
-    /**
-     * 查询单个旅游路线的详细信息
-     */
-    public void findOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // 1.接收线路id
-        String rid = request.getParameter("rid");
-        rid = this.parseStr(rid);   // 主要防止获取的"null"字符串
-        // 2.调用service查询
-        Route route = service.findOne(rid);
-        // 3.回写给客户端浏览器
-        this.writeValue(route, response);
     }
 
 }
