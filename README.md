@@ -139,6 +139,28 @@ header.html传递cid：获取cid
 
 在前端搜索框中输入关键词，后端根据前端提交的数据在数据库中做模糊查询（LIKE)。在此功能中将 Category dao 中的固定sql语句改为动态sql语句，在设置基础sql语句的基础上，根据不同的查询条件拼接对应的子句。
 
+### 旅游线路详情展示
+
+- 前台效果
+
+![旅游线路详情前台效果](D:\iJava\ItCast-HeiMa-Travel\img\旅游线路详情前台效果.png)
+
+- 功能分析
+
+![旅游线路详情展示功能分析](D:\iJava\ItCast-HeiMa-Travel\img\旅游线路详情展示功能分析.png)
+
+详情展示包括旅游线路文字信息、图片信息、商家信息。结合数据库构造。先从tab_route表中查出rid对应Route Bean对象（route），再从tab_route_img表中根据rid查询RouteImg Bean对象（routeImg），最后根据route对象中的sid属性从tab_seller表中查询Seller Bean对象（seller）。
+
+将routeImg和seller封装至route的对应属性中，进而将route对象返回至Servlet层序列化为json对象回写给客户端浏览器。
+
+
+
+
+
+
+
+
+
 
 
 
