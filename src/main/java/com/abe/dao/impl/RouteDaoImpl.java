@@ -13,7 +13,7 @@ import java.util.List;
  * @Author: Abe
  * @Date: 2020/10/8
  *
- * 旅游线路相关数据库查询实现类
+ * 旅游线路相关数据库操作实现类
  */
 public class RouteDaoImpl implements RouteDao {
 

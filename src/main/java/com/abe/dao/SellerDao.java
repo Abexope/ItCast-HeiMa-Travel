@@ -6,7 +6,7 @@ import com.abe.domain.Seller;
  * @Author: Abe
  * @Date: 2020/10/9
  *
- * 商家信息查询接口
+ * 商家信息数据库操作接口
  */
 public interface SellerDao {
 

@@ -12,7 +12,7 @@ import java.util.List;
  * @Author: Abe
  * @Date: 2020/10/9
  *
- * 旅游线路展示图片查询实现类
+ * 旅游线路展示图片数据库操作实现类
  */
 public class RouteImgDaoImpl implements RouteImgDao {
 

@@ -8,7 +8,7 @@ import java.util.List;
  * @Author: Abe
  * @Date: 2020/10/8
  *
- * 旅游线路相关数据库查询接口
+ * 旅游线路相关数据库操作接口
  */
 public interface RouteDao {
 

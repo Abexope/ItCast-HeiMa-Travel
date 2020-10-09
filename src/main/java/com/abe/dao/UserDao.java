@@ -6,7 +6,7 @@ import com.abe.domain.User;
  * @Author: Abe
  * @Date: 2020/10/7
  *
- * 用户数据库操作接口
+ * 用户信息数据库操作接口
  */
 public interface UserDao {
 

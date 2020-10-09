@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @Author: Abe
  * @Date: 2020/10/9
  *
- * 商家信息查询实现类
+ * 商家信息数据库操作实现类
  */
 public class SellerDaoImpl implements SellerDao {
 
