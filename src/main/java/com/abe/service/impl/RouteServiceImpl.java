@@ -1,8 +1,10 @@
 package com.abe.service.impl;
 
+import com.abe.dao.FavoriteDao;
 import com.abe.dao.RouteDao;
 import com.abe.dao.RouteImgDao;
 import com.abe.dao.SellerDao;
+import com.abe.dao.impl.FavoriteDaoImpl;
 import com.abe.dao.impl.RouteDaoImpl;
 import com.abe.dao.impl.RouteImgDaoImpl;
 import com.abe.dao.impl.SellerDaoImpl;
@@ -22,9 +24,10 @@ import java.util.List;
  */
 public class RouteServiceImpl implements RouteService {
 
-    RouteDao routeDao = new RouteDaoImpl();
-    RouteImgDao routeImgDao = new RouteImgDaoImpl();
-    SellerDao sellerDao = new SellerDaoImpl();
+    private RouteDao routeDao = new RouteDaoImpl();
+    private RouteImgDao routeImgDao = new RouteImgDaoImpl();
+    private SellerDao sellerDao = new SellerDaoImpl();
+    private FavoriteDao favoriteDao = new FavoriteDaoImpl();
 
     /**
      * 根据旅游线路类别进行分页查询
@@ -72,6 +75,10 @@ public class RouteServiceImpl implements RouteService {
         // 3.根据 Route Bean 对象中的 id 查询商家信息（Seller Bean 对象）
         Seller seller = sellerDao.findById(route.getSid());
         route.setSeller(seller);        // 将seller设置为route对象的属性
+
+        // 查询收藏次数
+        int count = favoriteDao.findCountByRid(route.getRid());
+        route.setCount(count);
 
         return route;
     }

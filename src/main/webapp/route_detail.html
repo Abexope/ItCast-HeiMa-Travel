@@ -77,7 +77,7 @@
                         <!--收藏按钮2-->
                         <!--<a  class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>-->
 
-                        <span>已收藏100次</span>
+                        <span id="favoriteCount">已收藏 次</span>
                     </p>
                 </div>        
             </div>
@@ -245,6 +245,7 @@
             $("#sname").html(route.seller.sname);
             $("#cnosphone").html(route.seller.consphone);
             $("#address").html(route.seller.address);
+            $("#favoriteCount").html("已收藏"+ route.count +"次");  // 设置收藏次数
 
             // 图片展示
             // 先加载左侧大图

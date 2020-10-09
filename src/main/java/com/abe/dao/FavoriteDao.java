@@ -19,4 +19,11 @@ public interface FavoriteDao {
      *      未收藏：null
      */
     Favorite findByRidAndUid(int rid, int uid);
+
+    /**
+     * 根据旅游线路id查询对应的收藏次数
+     * @param rid 旅游线路id
+     * @return 收藏次数
+     */
+    int findCountByRid(int rid);
 }
