@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -114,6 +115,14 @@ public class UserServlet extends BaseServlet {
 
         // 1.获取用户信息
         Map<String, String[]> parameterMap = request.getParameterMap();
+
+        // 1*.判断用户是否勾选`自动登陆`
+        if (parameterMap.containsKey("auto_login")) {   // 用户勾选了`自动登录`
+            // 创建一个Cookie对象，设置`JSESSIONID`属性为当前session对象的id值
+            Cookie jSessionIdCookie = new Cookie("JSESSIONID", session.getId());
+            // 将该Cookie对象回写给浏览器，并设置maxAge令浏览器持久化保存用户的登陆状态
+            this.writeCookie(jSessionIdCookie, 60*60*24*7, response);
+        }
 
         // 2.封装 User Bean 对象
         User user = new User();

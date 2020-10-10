@@ -25,13 +25,13 @@
 			// 1.给登录按钮绑定事件
 			$("#btn_sub").click(function () {
 				// 2.发送ajax请求，提交表单数据
-				$.post("user/login", $("#loginForm").serialize(), function (data) {
-					// data: {flag:true/false, errorMsg, "..."}
+				$.post("user/login", $("#loginForm").serialize(), function (resultInfo) {
+					// resultInfo: {flag:true/false, errorMsg, "..."}
 					// 3.处理响应结果
-					if (data["flag"]) {		// 登陆成功
+					if (resultInfo["flag"]) {		// 登陆成功
 						location.href = "index.html";
 					} else {				// 登陆失败
-						$("#errorMsg").html(data["errorMsg"]);
+						$("#errorMsg").html(resultInfo["errorMsg"]);
 					}
 				});
 			});
@@ -82,13 +82,13 @@
 						<button type="button" id="btn_sub">登录</button>
 						<div class="auto_login">
 							<label>
-								<input type="checkbox" name="" class="checkbox">
+								<input type="checkbox" name="auto_login" class="checkbox">
 							</label>
 							<span>自动登录</span>
 						</div>
         			</div>        			       		
         		</form>
-        		<div class="reg">没有账户？<a href="javascript:;">立即注册</a></div>
+        		<div class="reg">没有账户？<a href="register.html">立即注册</a></div>
         	</div>
         </div>
     </section>

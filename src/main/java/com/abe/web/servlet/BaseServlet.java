@@ -3,6 +3,7 @@ package com.abe.web.servlet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,8 +45,8 @@ public abstract class BaseServlet extends HttpServlet {
 
     /**
      * 将输入对象序列化为json，并回写客户端浏览器
-     * @param response Http响应对象
      * @param object 输入对象
+     * @param response Http响应对象
      */
     public void writeValue(Object object, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=utf-8");
@@ -59,5 +60,16 @@ public abstract class BaseServlet extends HttpServlet {
      */
     public String writeValueAsString(Object object) throws JsonProcessingException {
         return mapper.writeValueAsString(object);
+    }
+
+    /**
+     * 向客户端浏览器回传Cookie
+     * @param cookie Cookie对象
+     * @param maxAge Cookie生命周期
+     * @param response Http响应对象
+     */
+    public void writeCookie(Cookie cookie, int maxAge, HttpServletResponse response) {
+        cookie.setMaxAge(maxAge);
+        response.addCookie(cookie);
     }
 }
