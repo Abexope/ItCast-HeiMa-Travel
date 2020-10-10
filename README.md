@@ -192,7 +192,9 @@ header.html传递cid：获取cid
 服务器回写Cookie时需要设置Cookie的持久化时间（max age），用户再次经该浏览器访问服务器时会上传Cookie
 服务器发现浏览器上传的Cookie中保存的JSESSIONID属性值与当前服务器中保存的Session的JSESSIONID相同，说明这是同一用户重复登陆，从而在Session中提取用户的登录信息回写给浏览器，最后再浏览器中渲染目标用户信息
 
+### 查询用户收藏并展示
 
+![查询用户收藏并展示](D:\iJava\ItCast-HeiMa-Travel\img\查询用户收藏并展示.png)
 
 
 
