@@ -128,10 +128,6 @@ public class UserServiceImpl implements UserService {
         for (MyFavorite myFavorite : pageFavoriteList) {
             // 根据其rid属性利用routeDao查route对象
             Route route = routeDao.findOne(myFavorite.getRid());
-            // 根据其rid属性利用routeImgDao查routeImgList集合
-            List<RouteImg> routeImgList = routeImgDao.findByRid(myFavorite.getRid());
-            // 为route对象设置routeImgList属性
-            route.setRouteImgList(routeImgList);
             // 向routeList中追加route属性
             routeList.add(route);
         }
