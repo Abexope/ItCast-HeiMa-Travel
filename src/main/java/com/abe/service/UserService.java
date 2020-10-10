@@ -1,5 +1,7 @@
 package com.abe.service;
 
+import com.abe.domain.PageBean;
+import com.abe.domain.Route;
 import com.abe.domain.User;
 
 /**
@@ -36,4 +38,12 @@ public interface UserService {
      *      false：激活失败
      */
     User login(User user);
+
+    /**
+     * 查询`我的收藏`
+     * @param uid 用户uid
+     * @return 泛型为Route类的PageBean对象，
+     *      收藏结果的分页展示
+     */
+    PageBean<Route> favorPageQuery(int uid, int currentPage, int pageSize);
 }

@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * @Author: Abe
@@ -94,33 +93,6 @@ public class RouteServlet extends BaseServlet {
         int uid = user.getUid();
         // 3.调用service执行添加收藏
         favoriteService.add(rid, uid);
-    }
-
-    /**
-     * 字符串数字类型转换方法
-     *      将数字字符串转换为数字，例如："5" -> 5
-     * @param numStr 数字字符串
-     * @return 整型数字
-     * @throws ClassCastException
-     *      类型转换异常，避免传入的字符串内容不是数字
-     */
-    private int parseInt(String numStr, int defaultValue) throws ClassCastException {
-        return (numStr != null && numStr.length() > 0 && !"null".equalsIgnoreCase(numStr))
-                ? Integer.parseInt(numStr) : defaultValue;      // 注意：浏览器提交的空值到后台会被识别为<字符串"null">
-    }
-
-    /**
-     * 非数字字符串参数处理方法
-     * @param str 字符串对象
-     * @return 处理后的字符串对象
-     */
-    private String parseStr(String str) {
-        /*tomcat7存在中文乱码问题*/
-        if (str != null && str.length() > 0 && !"null".equalsIgnoreCase(str)) {
-            str = new String(str.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-            return str;
-        }
-        return null;
     }
 
 }

@@ -6,15 +6,141 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/common.css">
         <link rel="stylesheet" href="css/index.css">
-       <style>
+        <style>
            .tab-content .row>div {
             margin-top: 16px;
-           } 
+           }
            .tab-content {
             margin-bottom: 36px;
            }
-       </style>
-       <script src="js/jquery-3.3.1.js"></script>
+        </style>
+        <script src="js/jquery-3.3.1.js"></script>
+        <script src="js/getParameter.js"></script>
+
+        <script>
+
+            /**
+             * 我的收藏分页展示
+             */
+            $(function () {
+
+                let currentPage = getParameter("currentPage");
+                load(currentPage);
+
+            });
+
+
+            function load(currentPage) {
+
+                $.get("user/findMyFavorite", {currentPage: currentPage}, function (pageBean) {
+                    // 解析pageBean数据，展示到页面上
+
+                    if (pageBean == null) {
+                        // 可以添加一些渲染，由于我主学后端，这里就不展开了
+                        $("#favorite_routes").html('<span id="notlogin">您尚未登录，请<a href="login.html"> 【【登录】 </a></span>');
+                    }
+
+                    if (pageBean["totalCount"] === 0) {
+                        // 可以添加一些渲染，由于我主学后端，这里就不展开了
+                        $("#favorite_routes").html('<span id="nofavorite">您还没有任何收藏哦，去看一看线路列表吧</span>');
+                    }
+
+                    // 1.分页工具条数据展示
+                    // 当页面加载完成后，调用load方法发送AJAX请求加载数据
+                    let pageLis = "";
+                    // let href = '"localhost/travel/route_list.html?cid="''';
+                    let firstPage = '<li onclick="load('+ 1 + ')"><a href="myfavorite.html">首页</a></li>';
+                    let previousPageNum = pageBean.currentPage-1 < 1 ? 1 : pageBean.currentPage-1;      // 计算上一页页码
+                    let previousPage = '<li onclick="load('+ previousPageNum +')" class="threeword">' +
+                        '<a href="myfavorite.html?currentPage='+ previousPageNum +'">上一页</a></li>';
+                    pageLis += firstPage + previousPage;
+                    // 1.2 展示分页页码
+                    /* 显示部分页面
+                        1.一共展示10个页码，能够达到前5后4的效果
+                        2.如果前面不够5个，后面补齐10个
+                        3.如果后面不足4个，前面补齐10个
+                    */
+                    // 定义开始位置 begin，结束位置 end
+                    let begin, end;
+                    // 1.要显示10个页码
+                    if (pageBean["totalPage"] < 10) {   // 总页码不够10页
+                        begin = 1;
+                        end = pageBean["totalPage"];
+                    } else {    // 总页码超过10页
+                        begin = currentPage - 5;
+                        end = currentPage + 4;
+                        // 2.如果前面不够5个，后面补齐10个
+                        if (begin < 1) {
+                            begin = 1;
+                            end = begin + 9;
+                        }
+                        // 3.如果后面不足4个，前面补齐10个
+                        if (end > pageBean["totalPage"]) {
+                            end = pageBean["totalPage"];
+                            begin = end - 9;
+                        }
+                    }
+
+                    for (let i = begin; i <= end; i++) {
+                        let li;
+                        if (pageBean["currentPage"] === i) {
+                            // 对当前页码添加特殊的CSS样式
+                            li = '<li class="curPage" onclick="load('+ i +')">' +
+                                '<a href="myfavorite.html?currentPage='+ i +'">'+ i +'</a></li>';
+                        } else {
+                            li = '<li onclick="load('+ i +'">' +
+                                '<a href="myfavorite.html?currentPage='+ i +'">'+ i +'</a></li>';
+                        }
+                        pageLis += li;
+                    }
+
+                    let nextPageNum = pageBean.currentPage+1 > pageBean["totalPage"] ? pageBean["totalPage"] : pageBean.currentPage+1;      // 计算下一页页码
+                    let nextPage = '<li onclick="load('+ nextPageNum +')" class="threeword">' +
+                        '<a href="myfavorite.html?currentPage='+ nextPageNum +'">下一页</a></li>';
+                    let lastPage = '<li onclick="load('+ pageBean["totalPage"] +')" class="threeword">' +
+                        '<a href="myfavorite.html?currentPage='+ pageBean.totalPage +'">末页</a></li>';
+                    pageLis += nextPage + lastPage;
+
+                    // 将lis内容设置到ul中
+                    $("#ulPageNum").html(pageLis);
+
+                    // 2.列表数据展示
+                    let routeLis = '';
+
+                    /*
+                        <div class="col-md-3">
+                            <a href="route_detail.html">
+                                <img src="images/collection_pic.jpg" alt="">
+                                <div class="has_border">
+                                    <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
+                                    <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                </div>
+                            </a>
+                        </div>
+                    */
+
+                    for(let i = 0; i < pageBean.list.length; i ++) {
+                        let route = pageBean.list[i];
+                        let div = '<div class="col-md-3">\n' +
+            '                            <a href="route_detail.html?rid='+ route.rid +'">\n' +
+            '                                <img src="'+ route.rimage +'" alt="">\n' +
+            '                                <div class="has_border">\n' +
+            '                                    <h3>'+ route.rname +'</h3>\n' +
+            '                                    <div class="price">网付价<em>￥</em><strong>'+ route.price +'</strong><em>起</em></div>\n' +
+            '                                </div>\n' +
+            '                            </a>\n' +
+            '                        </div>';
+                        routeLis += div;
+                    }
+
+                    $("#favorite_routes").html(routeLis);
+
+                });
+
+            }
+
+        </script>
+
     </head>
     <body>
     <!--引入头部-->
@@ -28,12 +154,14 @@
                         <span>我的收藏</span>
                     </div>                    
                 </div>
-                <div class="jx_content">
+                <div class="jx_content" id="jx_content">
+                    <!--可以添加一些渲染-->
+<!--                    <span id="notlogin">您尚未登录，请<a href="login.html">登录</a></span>-->
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="home">
-                            <div class="row">
-                                <div class="col-md-3">
+                            <div class="row" id="favorite_routes">
+                                <!--<div class="col-md-3">
                                     <a href="route_detail.html">
                                         <img src="images/collection_pic.jpg" alt="">
                                         <div class="has_border">
@@ -105,7 +233,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                 <div class="col-md-3">
+                                <div class="col-md-3">
                                     <a href="route_detail.html">
                                         <img src="images/collection_pic.jpg" alt="">
                                         <div class="has_border">
@@ -140,16 +268,16 @@
                                             <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
                                         </div>
                                     </a>
-                                </div>
+                                </div>-->
                             </div>
                         </div>                       
                     </div>
                 </div>
                 <div class="pageNum">
-                    <ul>
+                    <ul id="ulPageNum">
                         <li><a href="">首页</a></li>
                         <li class="threeword"><a href="#">上一页</a></li>
-                        <li><a href="#">1</a></li>
+                        <!--<li><a href="#">1</a></li>
                         <li><a href="#">2</a></li>
                         <li><a href="#">3</a></li>
                         <li><a href="#">4</a></li>
@@ -158,7 +286,7 @@
                         <li><a href="#">7</a></li>
                         <li><a href="#">8</a></li>
                         <li><a href="#">9</a></li>
-                        <li><a href="#">10</a></li>
+                        <li><a href="#">10</a></li>-->
                         <li class="threeword"><a href="javascript:;">下一页</a></li>
                         <li class="threeword"><a href="javascript:;">末页</a></li>
                     </ul>
