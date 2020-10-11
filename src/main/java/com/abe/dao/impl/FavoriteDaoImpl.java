@@ -35,9 +35,7 @@ public class FavoriteDaoImpl implements FavoriteDao {
         try {
             String sql = "SELECT * FROM tab_favorite WHERE rid = ? AND uid = ?";
             favorite = template.queryForObject(sql, new BeanPropertyRowMapper<>(Favorite.class), rid, uid);
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        }
+        } catch (DataAccessException ignore) { }
         return favorite;
     }
 
@@ -72,6 +70,17 @@ public class FavoriteDaoImpl implements FavoriteDao {
     public void add(int rid, int uid) {
         String sql = "INSERT INTO tab_favorite(rid, date, uid)  VALUES( ? , ? , ? )";
         template.update(sql, rid, new Date(), uid);
+    }
+
+    /**
+     * 删除收藏路线
+     * @param rid 旅游路线id
+     * @param uid 用户id
+     */
+    @Override
+    public void remove(int rid, int uid) {
+        String sql = "DELETE FROM tab_favorite WHERE rid = ? AND uid = ?";
+        template.update(sql, rid, uid);
     }
 
     /**

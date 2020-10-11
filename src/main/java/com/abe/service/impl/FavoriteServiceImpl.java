@@ -38,4 +38,14 @@ public class FavoriteServiceImpl implements FavoriteService {
     public void add(String rid, int uid) {
         favoriteDao.add(Integer.parseInt(rid), uid);
     }
+
+    /**
+     * 取消收藏路线
+     * @param rid 旅游路线id
+     * @param uid 用户id
+     */
+    @Override
+    public void remove(String rid, int uid) {
+        favoriteDao.remove(Integer.parseInt(rid), uid);
+    }
 }

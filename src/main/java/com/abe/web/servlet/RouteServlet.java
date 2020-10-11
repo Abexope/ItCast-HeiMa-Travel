@@ -9,8 +9,10 @@ import com.abe.service.impl.FavoriteServiceImpl;
 import com.abe.service.impl.RouteServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -53,11 +55,21 @@ public class RouteServlet extends BaseServlet {
      * 查询单个旅游路线的详细信息
      */
     public void findOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        HttpSession session = request.getSession();
+
         // 1.接收线路id
         String rid = request.getParameter("rid");
         rid = this.parseStr(rid);   // 主要防止获取的"null"字符串
         // 2.调用service查询
         Route route = routeService.findOne(rid);
+
+        /*为了与用户登陆状态同步持久化，详情展示页面也向浏览器回写持久Cookie*/
+        // 创建一个Cookie对象，设置`JSESSIONID`属性为当前session对象的id值
+        Cookie jSessionIdCookie = new Cookie("JSESSIONID", session.getId());
+        // 将该Cookie对象回写给浏览器，并设置maxAge令浏览器持久化保存用户的登陆状态
+        this.writeCookie(jSessionIdCookie, 60*60*24*7, response);
+
         // 3.回写给客户端浏览器
         this.writeValue(route, response);
     }
@@ -93,6 +105,20 @@ public class RouteServlet extends BaseServlet {
         int uid = user.getUid();
         // 3.调用service执行添加收藏
         favoriteService.add(rid, uid);
+    }
+
+    /**
+     * 取消收藏
+     */
+    public void removeFavorite(HttpServletRequest request, HttpServletResponse response) {
+        // 1.获取线路id
+        String rid = request.getParameter("rid");
+        // 2.获取用户id
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) return;   // 未登录无法收藏，直接跳出方法
+        int uid = user.getUid();
+        // 3.调用service执行添加收藏
+        favoriteService.remove(rid, uid);
     }
 
 }

@@ -75,7 +75,7 @@
                         <a onclick="addFavorite();" class="btn" id="favorite"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
 
                         <!--收藏按钮2-->
-                        <!--<a  class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>-->
+                        <a onclick="removeFavorite();" class="btn already" disabled="disabled" id="cancel_favorite"><i class="glyphicon glyphicon-heart-empty"></i>取消收藏</a>
 
                         <span id="favoriteCount">已收藏 次</span>
                     </p>
@@ -298,10 +298,21 @@
                 let favor_selector = $("#favorite");
                 favor_selector.addClass("already");
                 favor_selector.attr("disabled", "disabled");
-                // 删除按钮点击事件
-                $("#favorite").removeAttr("onclick");
+                favor_selector.removeAttr("onclick");       // 删除按钮点击事件
+                let cancel_favor_selector = $("#cancel_favorite");
+                cancel_favor_selector.removeClass("already");
+                cancel_favor_selector.removeAttr("disabled");
+                cancel_favor_selector.attr("onclick");
             } else {        // 用户未收藏
-
+                // 设置收藏按钮样式 <a  class="btn already" disabled="disabled">
+                let favor_selector = $("#favorite");
+                favor_selector.removeClass("already");
+                favor_selector.removeAttr("disabled", "disabled");
+                favor_selector.attr("onclick");       // 删除按钮点击事件
+                let cancel_favor_selector = $("#cancel_favorite");
+                cancel_favor_selector.addClass("already");
+                cancel_favor_selector.attr("disabled");
+                cancel_favor_selector.removeAttr("onclick");
             }
         });
     });
@@ -310,7 +321,7 @@
      * 点击收藏按钮触发方法
      */
     function addFavorite() {
-        var rid = getParameter("rid");
+        let rid = getParameter("rid");
         // 1.判断用户是否登陆
         $.get("user/findOne", {}, function (user) {
             if (user) {     // 用户登陆
@@ -326,10 +337,77 @@
                         let favor_selector = $("#favorite");
                         favor_selector.addClass("already");
                         favor_selector.attr("disabled", "disabled");
-                        // 删除按钮点击事件
-                        $("#favorite").removeAttr("onclick");
+                        favor_selector.removeAttr("onclick");       // 删除按钮点击事件
+                        let cancel_favor_selector = $("#cancel_favorite");
+                        cancel_favor_selector.removeClass("already");
+                        cancel_favor_selector.removeAttr("disabled");
+                        cancel_favor_selector.attr("onclick");
+                    } else {        // 用户未收藏
+                        // 设置收藏按钮样式 <a  class="btn already" disabled="disabled">
+                        let favor_selector = $("#favorite");
+                        favor_selector.removeClass("already");
+                        favor_selector.removeAttr("disabled", "disabled");
+                        favor_selector.attr("onclick");       // 删除按钮点击事件
+                        let cancel_favor_selector = $("#cancel_favorite");
+                        cancel_favor_selector.addClass("already");
+                        cancel_favor_selector.attr("disabled");
+                        cancel_favor_selector.removeAttr("onclick");
                     }
                 });
+
+                $.get("route/findOne", {rid: rid}, function (route) {
+                    $("#favoriteCount").html("已收藏" + route.count + "次");  // 设置收藏次数
+                });
+
+                location.reload();      // AJAX只能保证一次请求是有效的，不刷一下的话无法保证动作的连贯性
+
+            } else {        // 用户未登录
+                alert("您尚未登陆，请登录");
+                location.href = "http://localhost/travel/login.html";
+            }
+        })
+    }
+
+    function removeFavorite () {
+        let rid = getParameter("rid");
+        // 1.判断用户是否登陆
+        $.get("user/findOne", {}, function (user) {
+            if (user) {     // 用户登陆
+                $.get("route/removeFavorite", {rid: rid}, function () { });
+
+                // 按钮渲染更新方式1：刷新页面
+                // location.reload();
+
+                // 按钮渲染更新方式2：发送一个异步请求
+                $.get("route/isFavorite", {rid: rid}, function (flag) {
+                    if (flag) {     // 用户已收藏
+                        // 设置收藏按钮样式 <a  class="btn already" disabled="disabled">
+                        let favor_selector = $("#favorite");
+                        favor_selector.addClass("already");
+                        favor_selector.attr("disabled", "disabled");
+                        favor_selector.removeAttr("onclick");       // 删除按钮点击事件
+                        let cancel_favor_selector = $("#cancel_favorite");
+                        cancel_favor_selector.removeClass("already");
+                        cancel_favor_selector.removeAttr("disabled");
+                        cancel_favor_selector.attr("onclick");
+                    } else {        // 用户未收藏
+                        // 设置收藏按钮样式 <a  class="btn already" disabled="disabled">
+                        let favor_selector = $("#favorite");
+                        favor_selector.removeClass("already");
+                        favor_selector.removeAttr("disabled", "disabled");
+                        favor_selector.attr("onclick");       // 删除按钮点击事件
+                        let cancel_favor_selector = $("#cancel_favorite");
+                        cancel_favor_selector.addClass("already");
+                        cancel_favor_selector.attr("disabled");
+                        cancel_favor_selector.removeAttr("onclick");
+                    }
+                });
+
+                $.get("route/findOne", {rid: rid}, function (route) {
+                    $("#favoriteCount").html("已收藏" + route.count + "次");  // 设置收藏次数
+                });
+
+                location.reload();      // AJAX只能保证一次请求是有效的，不刷一下的话无法保证动作的连贯性
 
             } else {        // 用户未登录
                 alert("您尚未登陆，请登录");

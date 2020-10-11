@@ -45,6 +45,13 @@ public interface FavoriteDao {
     void add(int rid, int uid);
 
     /**
+     * 删除收藏路线
+     * @param rid 旅游路线id
+     * @param uid 用户id
+     */
+    void remove(int rid, int uid);
+
+    /**
      * 分页查询用户uid的收藏记录
      * @param uid 用户uid
      * @param start 起始条目
