@@ -21,7 +21,12 @@
             let cid = getParameter("cid");
             // 获取rname的参数值
             let rname = getParameter("rname");
-            let currentPage = getParameter("currentPage");
+            let currentPage = parseInt(getParameter("currentPage"));
+            /*
+                通过点击方格（click事件）发出的请求抓取到的页数值是数字类型
+                通过点击页码（<a>标签）发出的请求抓取到的页数值是字符串类型
+                所以这里不论什么类型都做一次类型转换。
+            */
 
             if (rname) {
                 rname = window.decodeURIComponent(rname);   // URI解码
@@ -96,6 +101,8 @@
                     }
                 }
 
+                // alert(begin + " " + end);
+
                 for (let i = begin; i <= end; i++) {
                     let li;
                     if (pageBean["currentPage"] === i) {
@@ -113,7 +120,7 @@
                 let nextPage = '<li onclick="load('+ cid +','+ nextPageNum +',\''+ rname +'\')" class="threeword">' +
                     '<a href="route_list.html?cid='+ cid +'&currentPage='+ nextPageNum +'">下一页</a></li>';
                 let lastPage = '<li onclick="load('+ cid +','+ pageBean["totalPage"] +',\''+ rname +'\')" class="threeword">' +
-                    '<a href="route_list.html?cid='+ cid +'&currentPage='+ pageBean.totalPage +'">末页</a></li>';
+                    '<a href="route_list.html?cid='+ cid +'&currentPage='+ pageBean["totalPage"] +'">末页</a></li>';
                 pageLis += nextPage + lastPage;
 
                 // 将lis内容设置到ul中
