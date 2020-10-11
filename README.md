@@ -41,7 +41,7 @@ USE travel;
 
 
 
-## 课程功能实现
+## 课上功能实现
 
 ### 注册
 
@@ -195,6 +195,10 @@ header.html传递cid：获取cid
 ### 查询用户收藏并展示
 
 ![查询用户收藏并展示](D:\iJava\ItCast-HeiMa-Travel\img\查询用户收藏并展示.png)
+
+### 取消收藏并更新页面展示
+
+![取消收藏功能分析](D:\iJava\ItCast-HeiMa-Travel\img\取消收藏功能分析.png)
 
 
 
