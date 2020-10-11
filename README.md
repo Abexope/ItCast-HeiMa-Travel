@@ -1,6 +1,8 @@
 # ItCast-HeiMa-Travel
-Java Web 实践项目：黑马旅游网
-项目课程链接：https://www.bilibili.com/video/BV1CE411E7h4
+Java Web 实践项目：黑马旅游网  
+
+项目课程链接：https://www.bilibili.com/video/BV1CE411E7h4  
+
 完整课程连接：https://www.bilibili.com/video/BV1uJ411k7wy
 
 ## 技术选型
@@ -41,7 +43,7 @@ USE travel;
 
 
 
-## 课程功能实现
+## 课上功能实现
 
 ### 注册
 
@@ -195,6 +197,10 @@ header.html传递cid：获取cid
 ### 查询用户收藏并展示
 
 ![查询用户收藏并展示](D:\iJava\ItCast-HeiMa-Travel\img\查询用户收藏并展示.png)
+
+### 取消收藏并更新页面展示
+
+![取消收藏功能分析](D:\iJava\ItCast-HeiMa-Travel\img\取消收藏功能分析.png)
 
 
 
