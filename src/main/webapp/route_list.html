@@ -41,6 +41,11 @@
          * 分页请求函数
          */
         function load(cid, currentPage, rname) {
+
+            if (isNaN(currentPage)) {
+                currentPage = 1;
+            }
+
             // 发送AJAX请求，请求route/pageQuery，传递cid
             $.get("route/pageQuery", {cid: cid, currentPage: currentPage, rname: rname}, function (pageBean) {
                 // 解析pageBean数据，展示到页面上
@@ -172,7 +177,7 @@
                 $("#route").html(routeLis);
 
                 // 定位到页面顶部，取消是为了用户浏览的连续性
-                // window.scrollTo(0, 0);
+                window.scrollTo(0, 0);
 
             });
         }
