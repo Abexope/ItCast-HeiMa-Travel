@@ -123,7 +123,7 @@ public class UserServlet extends BaseServlet {
             // 创建一个Cookie对象，设置`JSESSIONID`属性为当前session对象的id值
             Cookie jSessionIdCookie = new Cookie("JSESSIONID", session.getId());
             // 将该Cookie对象回写给浏览器，并设置maxAge令浏览器持久化保存用户的登陆状态
-            this.writeCookie(jSessionIdCookie, 60*60*24*7, response);
+            this.writeCookie(jSessionIdCookie, 60*60*24*7, "/", response);
         }
 
         // 2.封装 User Bean 对象

@@ -75,6 +75,19 @@ public abstract class BaseServlet extends HttpServlet {
     }
 
     /**
+     * 重载方法，向客户端浏览器回传Cookie
+     * @param cookie Cookie对象
+     * @param maxAge Cookie生命周期
+     * @param path Cookie作用域
+     * @param response Http响应对象
+     */
+    public void writeCookie(Cookie cookie, int maxAge, String path, HttpServletResponse response) {
+        cookie.setMaxAge(maxAge);
+        cookie.setPath(path);
+        response.addCookie(cookie);
+    }
+
+    /**
      * 字符串数字类型转换方法
      *      将数字字符串转换为数字，例如："5" -> 5
      * @param numStr 数字字符串
